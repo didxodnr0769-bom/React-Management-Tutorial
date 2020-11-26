@@ -21,36 +21,31 @@ const styles = (theme) => ({
   },
 });
 
-const customers = [
-  {
-    id: 1,
-    image: "https://placeimg.com/64/64/any",
-    name: "양태욱",
-    birthday: "940217",
-    gender: "남자",
-    job: "직장인",
-  },
-  {
-    id: 2,
-    image: "https://placeimg.com/64/64/any",
-    name: "김보연",
-    birthday: "950915",
-    gender: "여자",
-    job: "직장인",
-  },
-  {
-    id: 3,
-    image: "https://placeimg.com/64/64/any",
-    name: "양수민",
-    birthday: "960316",
-    gender: "여자",
-    job: "봄이 집사",
-  },
-];
-
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: [],
+    };
+  }
+
+  componentDidMount() {
+    this.callApi()
+      .then((res) => this.setState({ customers: res }))
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+  callApi = async () => {
+    console.log("ytw call APi?");
+    const response = await fetch("/api/customers");
+    const body = await response.json();
+    return body;
+  };
+
   render() {
     const { classes } = this.props;
+    const { customers } = this.state;
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
